@@ -17,8 +17,10 @@ test('test Redirect', t => {
   const root = document.createElement('div');
   const Hello = () => <div>Hello</div>;
   const Moved = () => <Redirect to="/hello">Hi</Redirect>;
+  const history = createBrowserHistory()
+  history.replace('/')
   const el = (
-    <Router history={createBrowserHistory()}>
+    <Router history={history}>
       <div>
         <Route path="/" component={Moved} />
         <Route path="/hello" component={Hello} />
@@ -26,15 +28,9 @@ test('test Redirect', t => {
     </Router>
   );
   ReactDOM.render(el, root);
+  ReactDOM.render(el, root); // trigger redirect
   t.ok(/Hello/.test(root.innerHTML), `matches ${root.innerHTML}`);
   t.equal(window.location.pathname, '/hello');
-
-  // reset the url back to "/"
-  ReactDOM.render(
-    <Router history={createBrowserHistory()}>
-      <Redirect to="/" />
-    </Router>,
-    document.createElement('div')
-  );
+  history.push('/') // reset the url back to "/"
   t.end();
 });

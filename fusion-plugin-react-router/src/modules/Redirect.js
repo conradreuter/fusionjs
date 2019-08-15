@@ -10,6 +10,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import type {LocationShapeType, RedirectType} from '../types.js';
+import {useRouter} from './useRouter';
 
 type PropsType = {|
   to: string | LocationShapeType,
@@ -20,42 +21,16 @@ type PropsType = {|
   code?: number | string,
   children?: React.Node,
 |};
-type ContextType = {
-  router: {
-    history: {
-      push: (el: string | LocationShapeType) => void,
-      replace: (el: string | LocationShapeType) => void,
-    },
-    staticContext?: {
-      setCode: (code: number) => void,
-      redirect: (el: string | LocationShapeType) => void,
-    },
-  },
-};
-export class Redirect extends React.Component<PropsType> {
-  context: ContextType;
-
-  constructor(props: PropsType, context: ContextType) {
-    super(props, context);
-    if (this.isStatic(context)) this.perform();
-  }
-
-  static defaultProps = {
-    push: false,
-    code: 307,
-  };
-
-  componentDidMount() {
-    if (!this.isStatic()) this.perform();
-  }
-
-  isStatic(context: ContextType = this.context): boolean {
-    return !!(context && context.router && context.router.staticContext);
-  }
-
-  perform() {
-    const {history, staticContext} = this.context.router;
-    const {push, to, code} = this.props;
+export function Redirect(props: PropsType) {
+  const {history, staticContext} = useRouter();
+  if (staticContext) perform();
+  React.useEffect(() => {
+    if (!staticContext) perform();
+  }, []);
+  return null;
+  
+  function perform() {
+    const {push = false, to, code = 307} = props;
 
     if (__NODE__ && staticContext) {
       staticContext.setCode(parseInt(code, 10));
@@ -69,21 +44,7 @@ export class Redirect extends React.Component<PropsType> {
       history.replace(to);
     }
   }
-
-  render() {
-    return null;
-  }
 }
-
-Redirect.contextTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
-    staticContext: PropTypes.object,
-  }).isRequired,
-};
 
 // Sanity type checking
 (Redirect: RedirectType);

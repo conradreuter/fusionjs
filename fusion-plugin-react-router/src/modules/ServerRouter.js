@@ -37,11 +37,11 @@ class ServerRouter extends React.Component<PropsType> {
   }
 
   render() {
-    const {Provider, history, basename, children} = this.props;
+    const {Provider, history, basename, context, children} = this.props;
     if (!Provider) throw new Error('Missing Provider for Server Router');
     return (
       // $FlowFixMe
-      <Provider basename={basename} history={history}>
+      <Provider basename={basename} history={history} staticContext={context}>
         {children}
       </Provider>
     );

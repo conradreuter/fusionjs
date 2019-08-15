@@ -24,10 +24,13 @@ const Route = __BROWSER__ ? browser.Route : server.Route;
 const Router = __BROWSER__ ? browser.Router : server.Router;
 const Switch = __BROWSER__ ? browser.Switch : server.Switch;
 const withRouter = __BROWSER__ ? browser.withRouter : server.withRouter;
+const generatePath = __BROWSER__ ? browser.generatePath : server.generatePath
 
 const NotFound = __BROWSER__ ? browser.NotFound : server.NotFound;
 const Redirect = __BROWSER__ ? browser.Redirect : server.Redirect;
 const Status = __BROWSER__ ? browser.Status : server.Status;
+
+const useRouter = __BROWSER__ ? browser.useRouter : server.useRouter;
 
 export default plugin;
 export {
@@ -45,6 +48,8 @@ export {
   Status,
   Switch,
   withRouter,
+  generatePath,
+  useRouter,
   RouterProviderToken,
   RouterToken,
 };

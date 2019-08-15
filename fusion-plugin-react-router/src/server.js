@@ -17,12 +17,14 @@ import {
   Switch as SwitchUntyped,
   matchPath as matchPathUntyped,
   withRouter as withRouterUntyped,
+  generatePath as generatePathUntyped,
 } from 'react-router-dom';
 
 import {Status, NotFound} from './modules/Status';
 import {Redirect} from './modules/Redirect';
 import {ServerRouter as Router} from './modules/ServerRouter';
 import {Route} from './modules/Route';
+import {useRouter} from './modules/useRouter';
 
 import type {
   BrowserRouterType,
@@ -34,6 +36,7 @@ import type {
   SwitchType,
   matchPathType,
   withRouterType,
+  generatePathType,
 } from './types.js';
 
 /**
@@ -50,6 +53,7 @@ const Prompt: PromptType = PromptUntyped;
 const Switch: SwitchType = SwitchUntyped;
 const matchPath: matchPathType = matchPathUntyped;
 const withRouter: withRouterType = withRouterUntyped;
+const generatePath: generatePathType = generatePathUntyped;
 
 export {
   BrowserRouter,
@@ -62,9 +66,11 @@ export {
   Switch,
   matchPath,
   withRouter,
+  generatePath,
   Status,
   NotFound,
   Redirect,
   Router,
   Route,
+  useRouter,
 };
